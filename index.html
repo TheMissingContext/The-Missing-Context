@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>The Missing Context</title>
+
+<style>
+:root {
+    --bg: #07090b;
+    --panel: #101418;
+    --panel2: #0c1013;
+    --text: #f3f4f4;
+    --muted: #a8afb3;
+    --line: #2a3034;
+    --red: #e21f2f;
+    --green: #78d69b;
+    --yellow: #d6bd5b;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.5;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.container {
+    width: min(calc(100% - 36px), 1180px);
+    margin: auto;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(5,7,8,.94);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    backdrop-filter: blur(12px);
+}
+
+.nav {
+    min-height: 72px;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.logo {
+    font-weight: 900;
+    letter-spacing: -.05em;
+    line-height: .78;
+    font-size: 20px;
+    width: 160px;
+}
+
+.logo span {
+    display: block;
+}
+
+.x {
+    color: var(--red);
+}
+
+nav {
+    display: flex;
+    gap: 24px;
+    margin-left: auto;
+}
+
+nav a {
+    color: #c8ccce;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: white;
+}
+
+.nav-button {
+    border: 1px solid #394045;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 18px;
+    border-radius: 5px;
+    border: 1px solid var(--line);
+    background: #0c1013;
+    color: white;
+    font-weight: 800;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    filter: brightness(1.15);
+}
+
+.btn-red {
+    background: var(--red);
+    border-color: var(--red);
+}
+
+.btn-green {
+    border-color: #326347;
+    color: var(--green);
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+
+    background:
+        radial-gradient(
+            circle at 78% 30%,
+            rgba(80,110,120,.35),
+            transparent 28%
+        ),
+        linear-gradient(
+            90deg,
+            #050708 0%,
+            #07090b 45%,
+            rgba(7,9,11,.45) 100%
+        );
+}
+
+.hero-content {
+    padding: 80px 0;
+}
+
+.eyebrow {
+    color: var(--red);
+    font-weight: 900;
+    letter-spacing: .1em;
+    font-size: 13px;
+}
+
+h1 {
+    font-size: clamp(50px, 8vw, 90px);
+    line-height: .85;
+    letter-spacing: -.05em;
+    margin: 18px 0 25px;
+}
+
+.hero-text {
+    max-width: 560px;
+    color: #c5c9cb;
+    font-size: 16px;
+}
+
+.actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+}
+
+/* =========================
+   CALCULATOR
+========================= */
+
+.calculator {
+    margin-top: -35px;
+    position: relative;
+    z-index: 2;
+
+    background:
+        linear-gradient(
+            145deg,
+            #11161a,
+            #0b0e11
+        );
+
+    border: 1px solid #30373b;
+    border-radius: 9px;
+    padding: 28px;
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.4);
+}
+
+.calc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 30px;
+}
+
+.calc-info {
+    border-right: 1px solid var(--line);
+    padding-right: 30px;
+}
+
+.label {
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: .1em;
+}
+
+h2 {
+    margin: 7px 0;
+    font-size: 27px;
+}
+
+.muted {
+    color: var(--muted);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 14px;
+}
+
+label {
+    display: block;
+    font-size: 10px;
+    color: #adb4b7;
+    margin-bottom: 6px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 12px;
+
+    background: #0b0e11;
+    color: white;
+
+    border: 1px solid #343a3e;
+    border-radius: 5px;
+}
+
+.result {
+    margin-top: 14px;
+
+    border: 1px solid #344047;
+    border-radius: 7px;
+
+    padding: 18px;
+
+    text-align: center;
+
+    background: #0b0f11;
+}
+
+.result small {
+    color: #aeb5b8;
+}
+
+.price {
+    font-size: 32px;
+    color: var(--green);
+    font-weight: 900;
+}
+
+.note {
+    font-size: 11px;
+    color: #858e93;
+}
+
+/* =========================
+   SECTIONS
+========================= */
+
+section {
+    padding: 58px 0 0;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 18px;
+}
+
+.section-heading h2 {
+    font-size: 22px;
+    text-transform: uppercase;
+}
+
+.view {
+    color: var(--red);
+    font-size: 12px;
+    font-weight: 900;
+}
+
+/* =========================
+   INVESTIGATION CARDS
+========================= */
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    gap: 13px;
+}
+
+.card {
+    background: var(--panel);
+    border: 1px solid #272d31;
+    border-radius: 7px;
+    overflow: hidden;
+}
+
+.thumbnail {
+    height: 125px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 42px;
+
+    background:
+        radial-gradient(
+            circle at 70% 30%,
+            rgba(112,140,148,.4),
+            transparent 25%
+        ),
+        linear-gradient(
+            145deg,
+            #172126,
+            #07090b
+        );
+}
+
+.card-content {
+    padding: 13px;
+}
+
+.tag {
+    font-size: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--red);
+}
+
+.tag-green {
+    color: var(--green);
+}
+
+.tag-yellow {
+    color: var(--yellow);
+}
+
+.card h3 {
+    margin: 6px 0;
+    font-size: 16px;
+    line-height: 1.15;
+}
+
+.card p {
+    color: #969fa4;
+    font-size: 12px;
+}
+
+.meta {
+    color: #727a7f;
+    font-size: 10px;
+}
+
+/* =========================
+   TOPICS
+========================= */
+
+.topics {
+    display: grid;
+    grid-template-columns: repeat(7,1fr);
+    gap: 9px;
+}
+
+.topic {
+    min-height: 85px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #30373b;
+    border-radius: 6px;
+
+    background: #0c1012;
+
+    color: #c9ced0;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    text-align: center;
+}
+
+.topic-icon {
+    color: var(--green);
+    font-size: 22px;
+    margin-bottom: 7px;
+}
+
+/* =========================
+   AFFILIATE SECTION
+========================= */
+
+.affiliate {
+    margin-top: 50px;
+
+    padding: 28px;
+
+    border: 1px solid #293238;
+    border-radius: 8px;
+
+    background:
+        linear-gradient(
+            120deg,
+            #0d1215,
+            #0a0d0f
+        );
+}
+
+.affiliate-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.affiliate a {
+    color: var(--green);
+    font-weight: bold;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    margin-top: 65px;
+    padding: 45px 0 25px;
+
+    border-top: 1px solid #252b2f;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr 1.4fr;
+    gap: 30px;
+}
+
+footer h3 {
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+footer p,
+footer a {
+    color: #899196;
+    font-size: 12px;
+}
+
+footer a {
+    display: block;
+    margin: 8px 0;
+}
+
+.copyright {
+    margin-top: 35px;
+    padding-top: 18px;
+
+    border-top: 1px solid #20262a;
+
+    color: #656d71;
+    font-size: 10px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:900px) {
+
+    nav {
+        display: none;
+    }
+
+    .calc-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .calc-info {
+        border-right: none;
+        border-bottom: 1px solid var(--line);
+        padding: 0 0 20px;
+    }
+
+    .cards {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .topics {
+        grid-template-columns: repeat(4,1fr);
+    }
+
+    .footer-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+@media(max-width:600px) {
+
+    .container {
+        width: calc(100% - 24px);
+    }
+
+    .hero-content {
+        padding: 60px 0 75px;
+    }
+
+    h1 {
+        font-size: 55px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .topics {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .affiliate-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .calculator {
+        padding: 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+<div class="container nav">
+
+<a class="logo" href="#">
+    <span>THE</span>
+    <span>MISSING_</span>
+    <span>CONTE<span class="x">X</span>T</span>
+</a>
+
+<nav>
+    <a href="#home">HOME</a>
+    <a href="#investigations">INVESTIGATIONS</a>
+    <a href="#tools">TOOLS</a>
+    <a href="#topics">TOPICS</a>
+    <a href="#resources">RESOURCES</a>
+</nav>
+
+<a class="nav-button" href="#contact">
+    CONTACT
+</a>
+
+</div>
+
+</header>
+
+
+<main id="home">
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+<div class="container hero-content">
+
+<div class="eyebrow">
+    CLAIMS. EVIDENCE. CONTEXT.
+</div>
+
+<h1>
+    THE MISSING<br>
+    CONTE<span class="x">X</span>T
+</h1>
+
+<p class="hero-text">
+    Digging deeper into the stories, events, and phenomena
+    that shape our world. What happened. What people claim.
+    What the evidence actually says.
+</p>
+
+<div class="actions">
+
+<a class="btn btn-red" href="#investigations">
+    BROWSE INVESTIGATIONS
+</a>
+
+<a class="btn" href="#tools">
+    EXPLORE TOOLS
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     CALCULATOR
+========================= -->
+
+<section id="tools" class="container" style="padding-top:0">
+
+<div class="calculator">
+
+<div class="calc-grid">
+
+<div class="calc-info">
+
+<div class="label">
+    FREE TOOL
+</div>
+
+<h2>
+    Paranormal Investigation
+    Cost Calculator
+</h2>
+
+<p class="muted">
+    Estimate the potential cost of a hypothetical
+    paranormal investigation based on team size,
+    time, equipment, travel and other expenses.
+</p>
+
+<p class="note">
+    This is an educational estimate, not a professional quote.
+</p>
+
+</div>
+
+
+<div>
+
+<div class="form-grid">
+
+<div>
+
+<label>Investigation Type</label>
+
+<select id="type">
+<option value="1">Ghost Investigation</option>
+<option value="1.15">UFO Investigation</option>
+<option value="1.25">Cryptid Investigation</option>
+</select>
+
+</div>
+
+
+<div>
+
+<label>Investigators</label>
+
+<input
+    id="people"
+    type="number"
+    min="1"
+    value="2"
+>
+
+</div>
+
+
+<div>
+
+<label>Hours</label>
+
+<input
+    id="hours"
+    type="number"
+    min="1"
+    value="4"
+>
+
+</div>
+
+
+<div>
+
+<label>Equipment</label>
+
+<select id="equipment">
+<option value="0">Basic</option>
+<option value="35">Standard</option>
+<option value="90">Advanced</option>
+</select>
+
+</div>
+
+
+<div>
+
+<label>Travel</label>
+
+<select id="travel">
+<option value="0">Local</option>
+<option value="25">26–75 miles</option>
+<option value="65">76–150 miles</option>
+</select>
+
+</div>
+
+
+<div>
+
+<label>Other Expenses</label>
+
+<input
+    id="other"
+    type="number"
+    min="0"
+    value="20"
+>
+
+</div>
+
+</div>
+
+
+<div class="result">
+
+<small>
+    ESTIMATED COST
+</small>
+
+<div class="price" id="price">
+    $85 – $140
+</div>
+
+<div class="note">
+    Actual costs vary by circumstances.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     INVESTIGATIONS
+========================= -->
+
+<section id="investigations" class="container">
+
+<div class="section-heading">
+
+<h2>
+    Latest Investigations
+</h2>
+
+<a class="view" href="#">
+    VIEW ALL →
+</a>
+
+</div>
+
+
+<div class="cards">
+
+
+<article class="card">
+
+<div class="thumbnail">
+    ⚓
+</div>
+
+<div class="card-content">
+
+<div class="tag">
+    CONSPIRACY
+</div>
+
+<h3>
+    The Philadelphia Experiment
+</h3>
+
+<p>
+    What is documented, what was claimed,
+    and what remains unsupported.
+</p>
+
+<div class="meta">
+    8 MIN READ
+</div>
+
+</div>
+
+</article>
+
+
+<article class="card">
+
+<div class="thumbnail">
+    ◉
+</div>
+
+<div class="card-content">
+
+<div class="tag">
+    CONSPIRACY
+</div>
+
+<h3>
+    Dead Internet Theory
+</h3>
+
+<p>
+    The theory's origins and the evidence
+    commonly cited for and against it.
+</p>
+
+<div class="meta">
+    6 MIN READ
+</div>
+
+</div>
+
+</article>
+
+
+<article class="card">
+
+<div class="thumbnail">
+    ▣
+</div>
+
+<div class="card-content">
+
+<div class="tag tag-green">
+    DOCUMENTED
+</div>
+
+<h3>
+    Project MKUltra
+</h3>
+
+<p>
+    What declassified records establish about
+    the documented CIA program.
+</p>
+
+<div class="meta">
+    10 MIN READ
+</div>
+
+</div>
+
+</article>
+
+
+<article class="card">
+
+<div class="thumbnail">
+    🛸
+</div>
+
+<div class="card-content">
+
+<div class="tag">
+    UFOS
+</div>
+
+<h3>
+    The Rendlesham Forest Incident
+</h3>
+
+<p>
+    Reports, witnesses, records and competing
+    explanations.
+</p>
+
+<div class="meta">
+    7 MIN READ
+</div>
+
+</div>
+
+</article>
+
+
+<article class="card">
+
+<div class="thumbnail">
+    ☷
+</div>
+
+<div class="card-content">
+
+<div class="tag tag-yellow">
+    PARANORMAL
+</div>
+
+<h3>
+    Trans-Allegheny Lunatic Asylum
+</h3>
+
+<p>
+    History, reported experiences and what
+    can actually be verified.
+</p>
+
+<div class="meta">
+    9 MIN READ
+</div>
+
+</div>
+
+</article>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     TOPICS
+========================= -->
+
+<section id="topics" class="container">
+
+<div class="section-heading">
+
+<h2>
+    Browse By Topic
+</h2>
+
+</div>
+
+
+<div class="topics">
+
+<a class="topic" href="#">
+<span class="topic-icon">△</span>
+Conspiracies
+</a>
+
+<a class="topic" href="#">
+<span class="topic-icon">◉</span>
+UFOs
+</a>
+
+<a class="topic" href="#">
+<span class="topic-icon">☁</span>
+Paranormal
+</a>
+
+<a class="topic" href="#">
+<span class="topic-icon">♟</span>
+Cryptids
+</a>
+
+<a class="topic" href="#">
+<span class="topic-icon">▱</span>
+Documented
+</a>
+
+<a class="topic" href="#">
+<span class="topic-icon">?</span>
+Unexplained
+</a>
+
+<a class="topic" href="#">
+<span class="topic-icon">▥</span>
+Historical Mysteries
+</a>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     AFFILIATE AREA
+========================= -->
+
+<section id="resources" class="container">
+
+<div class="affiliate">
+
+<div class="label">
+    RESEARCH & EQUIPMENT
+</div>
+
+<h2>
+    Investigate Further
+</h2>
+
+
+<div class="affiliate-grid">
+
+<div>
+
+<h3>
+    Paranormal Equipment
+</h3>
+
+<p class="muted">
+    When you join an affiliate program,
+    replace this placeholder with your
+    tracked affiliate link.
+</p>
+
+<a href="#">
+    → Paranormal investigation equipment
+</a>
+
+</div>
+
+
+<div>
+
+<h3>
+    Books & Research
+</h3>
+
+<p class="muted">
+    Create topic-specific reading lists
+    and clearly disclose affiliate relationships.
+</p>
+
+<a href="#">
+    → Recommended research books
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer id="contact">
+
+<div class="container">
+
+<div class="footer-grid">
+
+
+<div>
+
+<div class="logo">
+
+<span>THE</span>
+<span>MISSING_</span>
+<span>CONTE<span class="x">X</span>T</span>
+
+</div>
+
+<p>
+    We investigate claims, evidence,
+    and the space between them.
+    You decide.
+</p>
+
+</div>
+
+
+<div>
+
+<h3>
+    Quick Links
+</h3>
+
+<a href="#investigations">
+    Investigations
+</a>
+
+<a href="#tools">
+    Tools & Calculators
+</a>
+
+<a href="#resources">
+    Resources
+</a>
+
+</div>
+
+
+<div>
+
+<h3>
+    Popular Topics
+</h3>
+
+<a href="#">
+    MKUltra
+</a>
+
+<a href="#">
+    UFOs
+</a>
+
+<a href="#">
+    Cold War
+</a>
+
+<a href="#">
+    Unexplained Events
+</a>
+
+</div>
+
+
+<div>
+
+<h3>
+    Stay In The Loop
+</h3>
+
+<p>
+    Newsletter functionality can be
+    connected later.
+</p>
+
+<input
+    type="email"
+    placeholder="Your email address"
+>
+
+<br><br>
+
+<button
+    class="btn btn-red"
+    onclick="alert('Newsletter signup will be connected later.')"
+>
+    SUBSCRIBE
+</button>
+
+</div>
+
+
+</div>
+
+
+<div class="copyright">
+
+© 2026 The Missing Context.
+All rights reserved.
+· Privacy Policy
+· Terms of Use
+· Affiliate Disclosure
+
+</div>
+
+</div>
+
+</footer>
+
+
+<!-- =========================
+     CALCULATOR JAVASCRIPT
+========================= -->
+
+<script>
+
+const fields = [
+    "type",
+    "people",
+    "hours",
+    "equipment",
+    "travel",
+    "other"
+];
+
+fields.forEach(function(id) {
+
+    document
+        .getElementById(id)
+        .addEventListener("input", calculate);
+
+});
+
+
+function calculate() {
+
+    const type =
+        Number(document.getElementById("type").value);
+
+    const people =
+        Math.max(
+            1,
+            Number(document.getElementById("people").value) || 1
+        );
+
+    const hours =
+        Math.max(
+            1,
+            Number(document.getElementById("hours").value) || 1
+        );
+
+    const equipment =
+        Number(document.getElementById("equipment").value) || 0;
+
+    const travel =
+        Number(document.getElementById("travel").value) || 0;
+
+    const other =
+        Math.max(
+            0,
+            Number(document.getElementById("other").value) || 0
+        );
+
+
+    const base =
+        (
+            35 +
+            people * 8 +
+            hours * 7 +
+            equipment +
+            travel +
+            other
+        ) * type;
+
+
+    const low =
+        Math.round(base / 5) * 5;
+
+    const high =
+        Math.round((base * 1.45) / 5) * 5;
+
+
+    document.getElementById("price").textContent =
+        "$" +
+        low.toLocaleString() +
+        " – $" +
+        high.toLocaleString();
+
+}
+
+
+calculate();
+
+</script>
+
+</body>
+</html>
